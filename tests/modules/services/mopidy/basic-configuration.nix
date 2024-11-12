@@ -29,8 +29,10 @@
   };
 
   nmt.script = ''
-    assertFileExists home-files/.config/systemd/user/mopidy.service
+    serviceFile=home-files/.config/systemd/user/mopidy.service
+    assertFileExists $serviceFile
     assertPathNotExists home-files/.config/systemd/user/mopidy-scan.service
+    assertFileRegex $serviceFile 'X-Restart-Triggers=.*mopidy\.conf'
 
     assertFileExists home-files/.config/mopidy/mopidy.conf
     assertFileContent home-files/.config/mopidy/mopidy.conf \
